@@ -1,0 +1,25 @@
+body{
+    min-height: 90vh;
+    background-color: aqua;
+}
+
+li{
+    list-style: none;
+}
+
+a{
+    text-decoration: none;
+}
+
+.font{
+    font-family: 'Square Peg';
+}
+
+.font-bold{
+    font-weight: bold;
+}
+
+.content{
+    min-height: 85.8vh;
+}
+
