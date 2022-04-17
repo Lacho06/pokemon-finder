@@ -1,83 +1,12 @@
-import React, {Fragment, useState, useEffect} from 'react'
-
-import './App.css'
-import Search from './../Search/Search';
+import React, {Fragment, useState} from 'react'
 import Pokemon from './../Pokemon/Pokemon';
+import Search from './../Search/Search';
+import './App.css'
 
 
 const App = () => {
 
-    const [pokemon, setPokemon] = useState([])
-
-    const [search, setSearch] = useState({
-        value: '',
-        loading: true,
-        error: true
-    })
-
-    const {value, loading, error} = search
-
-    const getPokemon = async(p) =>{
-
-        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${p}`)
-        await response.json().then(
-            (data)=>{
-                const results = [
-                    data.name,
-                    data.sprites.front_default,
-                    data.abilities?.map(i => i.ability),
-                    data.order,
-                    data.weight,
-                    data.moves?.map(i => i.move)
-                ]
-                setPokemon(results)
-                setSearch({...search, loading: false, error: false})
-            }
-        ).catch((e)=>{
-            setSearch({...search, loading:true, error: true})
-            setPokemon([])
-        })
-    }
-
-    useEffect(() => {
-        getPokemon(value)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [value])
-
-
-    const show = () =>{
-
-        if(loading === true && error === false){
-
-            return (
-                <p>Loading...</p>
-            )
-
-
-        }else if(loading === true && error === true){
-
-            return (
-                <p>No results found for this search</p>
-            )
-
-
-        }else{
-
-            return (
-
-                <Pokemon name={pokemon[0]} 
-                    img={pokemon[1]}
-                    ability={pokemon[2]} 
-                    number={pokemon[3]} 
-                    weight={pokemon[4]} 
-                    moves={pokemon[5]} />
-
-            )
-
-
-        }
-
-    }
+   const [pokemon, setPokemon] = useState('')
 
 
     return (
@@ -90,20 +19,13 @@ const App = () => {
                             <h2 className='h2 mx-auto my-auto'>P<span className='text-danger'>o</span>k<span className='text-warning'>e</span>m<span className='text-danger'>o</span>n</h2>
                         </div>
                         <div className="col-12 col-lg-4 d-flex flex-column">
-                            <Search text={value} onChange={({target})=> {
-                                setSearch({value: target.value, loading, error})
-                            }} />
+                            <Search setPokemon={ setPokemon } />
                         </div>
                     </div>
                     <hr />
                     <div className="row">
                         <div className="col-12">
-
-                            {
-                                show()
-                            }
-
-                            
+                            <Pokemon pokemon={ pokemon }/>
                         </div>
                     </div>
                 </div>
